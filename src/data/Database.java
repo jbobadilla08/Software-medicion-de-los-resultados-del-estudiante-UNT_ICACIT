@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
+
 /**
- *
  * @author alfie
  */
-public class Database {
-    
+public interface Database {
+    public static final String url = "jdbc:mysql://localhost:3306/icacit? serverTimezone=UTC";
+    public static final String user = "root";
+    public static final String password = "";
+
 }

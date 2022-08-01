@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
+import icacit.Profesor;
 import java.awt.Color;
 
 /**
@@ -12,7 +8,7 @@ import java.awt.Color;
  * @author alfie
  */
 public class PrincipalProf extends javax.swing.JFrame {
-
+    public static Profesor profAdmin;
     /**
      * Creates new form NewJFrame
      */
@@ -732,7 +728,7 @@ public class PrincipalProf extends javax.swing.JFrame {
         panDasboard.setPreferredSize(new java.awt.Dimension(842, 648));
         panDasboard.setLayout(new java.awt.CardLayout());
 
-        panInicio.setBackground(new java.awt.Color(0, 102, 153));
+        panInicio.setBackground(new java.awt.Color(0, 153, 153));
 
         javax.swing.GroupLayout panInicioLayout = new javax.swing.GroupLayout(panInicio);
         panInicio.setLayout(panInicioLayout);

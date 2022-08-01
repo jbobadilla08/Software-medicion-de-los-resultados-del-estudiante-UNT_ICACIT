@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/alfie/Documentos/Tesis/Icacit/src/view/PrincipalAdmin.java</file>
+            <file>file:/home/alfie/Documentos/Tesis/Icacit/src/icacit/Icacit.java</file>
+            <file>file:/home/alfie/Documentos/Tesis/Icacit/src/view/PanPlanCurricular.java</file>
+            <file>file:/home/alfie/Documentos/Tesis/Icacit/src/data/Conexion.java</file>
+            <file>file:/home/alfie/Documentos/Tesis/Icacit/src/view/DashboardAdmin.java</file>
         </group>
     </open-files>
 </project-private>

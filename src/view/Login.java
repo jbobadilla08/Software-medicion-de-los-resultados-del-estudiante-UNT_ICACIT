@@ -1,6 +1,14 @@
 
 package view;
 
+import icacit.Administrador;
+import icacit.Persona;
+import icacit.Profesor;
+import java.awt.Color;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author alfie
@@ -12,6 +20,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        setResizable(false);
     }
 
     /**
@@ -31,12 +40,12 @@ public class Login extends javax.swing.JFrame {
         pwdPassword = new javax.swing.JPasswordField();
         jSeparator3 = new javax.swing.JSeparator();
         lblTipo = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbTipo = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
         lblIniciarSesin = new javax.swing.JLabel();
         lblLogoIcacit = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnConfig = new javax.swing.JButton();
+        btnIngresar = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
         panBarra = new javax.swing.JPanel();
 
@@ -54,8 +63,17 @@ public class Login extends javax.swing.JFrame {
         txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
         txtUsuario.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(204, 204, 204));
-        txtUsuario.setText(" Ingrese su nombre de usuario");
-        txtUsuario.setBorder(null);
+        txtUsuario.setText("Ingrese nombre de usuario");
+        txtUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtUsuarioMousePressed(evt);
+            }
+        });
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyPressed(evt);
+            }
+        });
         panPrincipal.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 320, 30));
 
         jSeparator2.setBackground(new java.awt.Color(166, 55, 55));
@@ -70,8 +88,17 @@ public class Login extends javax.swing.JFrame {
         pwdPassword.setBackground(new java.awt.Color(255, 255, 255));
         pwdPassword.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
         pwdPassword.setForeground(new java.awt.Color(204, 204, 204));
-        pwdPassword.setText("  jPasswordField1");
-        pwdPassword.setBorder(null);
+        pwdPassword.setText("**********");
+        pwdPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pwdPasswordMousePressed(evt);
+            }
+        });
+        pwdPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwdPasswordKeyPressed(evt);
+            }
+        });
         panPrincipal.add(pwdPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 320, 30));
 
         jSeparator3.setBackground(new java.awt.Color(166, 55, 55));
@@ -83,11 +110,17 @@ public class Login extends javax.swing.JFrame {
         lblTipo.setText("TIPO");
         panPrincipal.add(lblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Profesor", "Administrador" }));
-        jComboBox1.setBorder(null);
-        panPrincipal.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 320, 30));
+        cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setForeground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Profesor" }));
+        cmbTipo.setToolTipText("");
+        cmbTipo.setBorder(null);
+        cmbTipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cmbTipoMousePressed(evt);
+            }
+        });
+        panPrincipal.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 320, 30));
 
         jSeparator1.setBackground(new java.awt.Color(166, 55, 55));
         jSeparator1.setForeground(new java.awt.Color(166, 55, 55));
@@ -103,32 +136,32 @@ public class Login extends javax.swing.JFrame {
         lblLogoIcacit.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         panPrincipal.add(lblLogoIcacit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 380, 40));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-menú-32.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-menú-32.png"))); // NOI18N
+        btnConfig.setBorder(null);
+        btnConfig.setBorderPainted(false);
+        btnConfig.setContentAreaFilled(false);
+        btnConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConfig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnConfigActionPerformed(evt);
             }
         });
-        panPrincipal.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 570, 30, 20));
+        panPrincipal.add(btnConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 570, 30, 20));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresar.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresarBg.png"))); // NOI18N
-        jButton2.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresarBg.png"))); // NOI18N
-        jButton2.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresar.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresar.png"))); // NOI18N
+        btnIngresar.setBorder(null);
+        btnIngresar.setBorderPainted(false);
+        btnIngresar.setContentAreaFilled(false);
+        btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnIngresar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresarBg.png"))); // NOI18N
+        btnIngresar.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresarBg.png"))); // NOI18N
+        btnIngresar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnIngresar.png"))); // NOI18N
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnIngresarActionPerformed(evt);
             }
         });
-        panPrincipal.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 170, 50));
+        panPrincipal.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 500, 170, 50));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bg.png"))); // NOI18N
         panPrincipal.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
@@ -160,13 +193,118 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnConfigActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        String usuario = txtUsuario.getText();
+        String password = String.valueOf(pwdPassword.getPassword());
+        if(!usuario.equals("Ingrese nombre de usuario") && !password.equals("**********") && !usuario.isEmpty() && !password.isEmpty())
+        {
+            Persona persona;
+            boolean band;
+            if (getCmbTipo() == 0) { //Cuenta Administrador
+                persona = new Administrador(usuario, password);
+                band = ((Administrador)persona).iniciarSesion();
+                if(band) {
+                    System.out.println("Acceso concedido admin");
+                    DashboardAdmin.admin = ((Administrador)persona);
+                    JFrame inicio = new DashboardAdmin(); // instanciamos la ventana principal
+                    inicio.setLocationRelativeTo(null); //centrado de pantalla
+                    inicio.setResizable(false);
+                    inicio.setVisible(true);
+                    this.dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Usuario y/o contraseña Incorrecta!!!", "Alerta", JOptionPane.WARNING_MESSAGE);
+                }
+            } else { // Cuenta Profesor
+                persona = new Profesor(usuario, password);
+                band = ((Profesor)persona).iniciarSesion();
+                if (band) {
+                    System.out.println("Acceso concedido profesor");
+                    PrincipalProf.profAdmin = ((Profesor)persona);
+                    JFrame inicio = new PrincipalProf(); // instanciamos la ventana principal
+                    inicio.setLocationRelativeTo(null); //centrado de pantalla
+                    inicio.setResizable(false);
+                    inicio.setVisible(true);
+                    this.dispose();
+                }
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los campos");
+        }
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private int getCmbTipo() {
+        return cmbTipo.getSelectedIndex();
+    }
+
+    private void txtUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if(txtUsuario.getText().equals("Ingrese nombre de usuario")) {
+            txtUsuario.setText("");
+            txtUsuario.setForeground(Color.black);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("**********");
+            pwdPassword.setForeground(new Color(204, 204, 204));
+        }
+    }//GEN-LAST:event_txtUsuarioMousePressed
+
+    private void pwdPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pwdPasswordMousePressed
+        // TODO add your handling code here:
+        if (String.valueOf(pwdPassword.getPassword()).equals("**********")) {
+            pwdPassword.setText("");
+            pwdPassword.setForeground(Color.black);
+            
+        }
+        if(txtUsuario.getText().isEmpty()) {
+            txtUsuario.setText("Ingrese nombre de usuario");
+            txtUsuario.setForeground(new Color(204, 204, 204));
+        }
+        
+    }//GEN-LAST:event_pwdPasswordMousePressed
+
+    private void pwdPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdPasswordKeyPressed
+        // TODO add your handling code here:
+        if (String.valueOf(pwdPassword.getPassword()).equals("**********")) {
+            pwdPassword.setText("");
+            pwdPassword.setForeground(Color.black);
+            
+        }
+        if(txtUsuario.getText().isEmpty()) {
+            txtUsuario.setText("Ingrese nombre de usuario");
+            txtUsuario.setForeground(new Color(204, 204, 204));
+        }
+    }//GEN-LAST:event_pwdPasswordKeyPressed
+
+    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+        // TODO add your handling code here:
+        if(txtUsuario.getText().equals("Ingrese nombre de usuario")) {
+            txtUsuario.setText("");
+            txtUsuario.setForeground(Color.black);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("**********");
+            pwdPassword.setForeground(new Color(204, 204, 204));
+        }
+    }//GEN-LAST:event_txtUsuarioKeyPressed
+
+    private void cmbTipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbTipoMousePressed
+        if(txtUsuario.getText().isEmpty()) {
+            txtUsuario.setText("Ingrese nombre de usuario");
+            txtUsuario.setForeground(new Color(204, 204, 204));
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("**********");
+            pwdPassword.setForeground(new Color(204, 204, 204));
+        }
+    }//GEN-LAST:event_cmbTipoMousePressed
 
     /**
      * @param args the command line arguments
@@ -204,9 +342,9 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnConfig;
+    private javax.swing.JButton btnIngresar;
+    private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
