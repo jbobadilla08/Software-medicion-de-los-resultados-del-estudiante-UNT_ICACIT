@@ -5,11 +5,13 @@
  */
 package view;
 
-import icacit.Administrador;
+import beans.Administrador;
+import beans.Sede;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import javax.swing.JPanel;
+import log.SedeLog;
 
 /**
  *
@@ -17,14 +19,18 @@ import javax.swing.JPanel;
  */
 public class DashboardAdmin extends javax.swing.JFrame {
     private static final int bg = -11515579;
-    public static Administrador admin;
+    public static Administrador admin; //datos del usuario de la cuenta
+    public static Sede sede; //carga la sede del usuario de la cuenta
+    public static LinkedList<Sede> listSede = new SedeLog().lista(); // carga todas las sedes
+    
     /**
-     * Creates new form NewJFrame
+     * Creates new form PrincipalAdmin
      */
     public DashboardAdmin() {
-        
-        initComponents();setColor(btnInicio);
+        initComponents();
+        setColor(btnInicio);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -36,11 +42,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btgTipo = new javax.swing.ButtonGroup();
-        btgTipoBuscar = new javax.swing.ButtonGroup();
-        btgResutadosEst = new javax.swing.ButtonGroup();
-        btgPrivilegios = new javax.swing.ButtonGroup();
-        btgAsignacion = new javax.swing.ButtonGroup();
+        background = new javax.swing.JPanel();
+        panHeader = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
         panLateral = new javax.swing.JPanel();
         panBotones = new javax.swing.JPanel();
         btnInicio = new javax.swing.JPanel();
@@ -80,12 +86,36 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel117 = new javax.swing.JLabel();
         jLabel118 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
-        panHeader = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        background.setBackground(new java.awt.Color(214, 217, 223));
+        background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panHeader.setBackground(new java.awt.Color(175, 58, 3));
+        panHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(251, 241, 199));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-clase-28.png"))); // NOI18N
+        jLabel15.setText("Informática - UNT");
+        panHeader.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 236, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-tipo-de-piel-masculina-del-usuario-del-círculo-7-30.png"))); // NOI18N
+        panHeader.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 30, 30));
+
+        lblUsuario.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        lblUsuario.setForeground(new java.awt.Color(251, 241, 199));
+        lblUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panHeader.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 160, 30));
+
+        background.add(panHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 30));
 
         panLateral.setBackground(new java.awt.Color(40, 40, 40));
         panLateral.setPreferredSize(new java.awt.Dimension(238, 648));
@@ -594,61 +624,37 @@ public class DashboardAdmin extends javax.swing.JFrame {
         panLateralLayout.setVerticalGroup(
             panLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panLateralLayout.createSequentialGroup()
-                .addComponent(panBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 140, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(panBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
-        content.setBackground(new java.awt.Color(251, 241, 199));
-        content.setPreferredSize(new java.awt.Dimension(842, 640));
+        background.add(panLateral, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 22, -1, 650));
+
+        content.setBackground(new java.awt.Color(214, 217, 223));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
 
-        panHeader.setBackground(new java.awt.Color(175, 58, 3));
-        panHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel15.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(251, 241, 199));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-clase-28.png"))); // NOI18N
-        jLabel15.setText("Informática - UNT");
-        panHeader.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 236, 30));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-tipo-de-piel-masculina-del-usuario-del-círculo-7-30.png"))); // NOI18N
-        panHeader.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 30, 30));
-
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(251, 241, 199));
-        jLabel1.setText("Jenny Sifuentes Diaz");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 0, 160, 30));
+        background.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 840, 640));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panLateral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(panHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panLateral, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)))
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -664,9 +670,11 @@ public class DashboardAdmin extends javax.swing.JFrame {
         //fg4 [124,111,100] fondo de boton
         
     }
+            
+     
     void resetColor(JPanel panel){
         panel.setBackground(new Color(80,73,69));
-    }  
+    }
     
     private void btnInicioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMousePressed
         setColor(btnInicio);
@@ -685,7 +693,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanDashboard panDashboard = new PanDashboard();
         panDashboard.setSize(842, 640);
         panDashboard.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panDashboard, BorderLayout.CENTER);
         content.revalidate();
@@ -693,16 +701,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioMousePressed
 
     private void btnInicioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnInicio);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnInicio);
     }//GEN-LAST:event_btnInicioMouseExited
 
     private void btnInicioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInicioMouseEntered
         if(btnInicio.getBackground().getRGB() == bg)
-            setColor(btnInicio);
+        setColor(btnInicio);
     }//GEN-LAST:event_btnInicioMouseEntered
 
     private void btnPlanCurricularMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanCurricularMousePressed
@@ -720,9 +728,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
         resetColor(btnPlanMedicionRe);
         // Abrir sección
         PanPlanCurricular panPlanCurricular = new PanPlanCurricular();
-        panPlanCurricular.setSize(842, 640);
+        panPlanCurricular.setSize(840, 640);
         panPlanCurricular.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panPlanCurricular, BorderLayout.CENTER);
         content.revalidate();
@@ -730,22 +738,22 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlanCurricularMousePressed
 
     private void btnPlanCurricularMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanCurricularMouseExited
-        if(btnInicio.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnPlanCurricular);
+        if(btnInicio.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnPlanCurricular);
     }//GEN-LAST:event_btnPlanCurricularMouseExited
 
     private void btnPlanCurricularMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanCurricularMouseEntered
         if(btnPlanCurricular.getBackground().getRGB() == bg)
-            setColor(btnPlanCurricular);
+        setColor(btnPlanCurricular);
     }//GEN-LAST:event_btnPlanCurricularMouseEntered
 
     private void btnEvaluacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEvaluacionMousePressed
         setColor(btnEvaluacion);
         resetColor(btnInicio);
-        resetColor(btnPlanCurricular);        
+        resetColor(btnPlanCurricular);
         resetColor(btnResEstudiante);
         resetColor(btnCursos);
         resetColor(btnEstudiantes);
@@ -759,7 +767,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanAnioEvaluacion panAnioEvaluacion = new PanAnioEvaluacion();
         panAnioEvaluacion.setSize(842, 640);
         panAnioEvaluacion.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panAnioEvaluacion, BorderLayout.CENTER);
         content.revalidate();
@@ -767,16 +775,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEvaluacionMousePressed
 
     private void btnEvaluacionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEvaluacionMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnEvaluacion);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnEvaluacion);
     }//GEN-LAST:event_btnEvaluacionMouseExited
 
     private void btnEvaluacionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEvaluacionMouseEntered
         if(btnEvaluacion.getBackground().getRGB() == bg)
-            setColor(btnEvaluacion);
+        setColor(btnEvaluacion);
     }//GEN-LAST:event_btnEvaluacionMouseEntered
 
     private void btnResEstudianteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResEstudianteMousePressed
@@ -793,10 +801,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         resetColor(btnMedicionRe);
         resetColor(btnPlanMedicionRe);
         // Abrir sección
-        PanResEstudiante panResEstudiante = new PanResEstudiante();
+        PanResEstudiantes panResEstudiante = new PanResEstudiantes();
         panResEstudiante.setSize(842, 640);
         panResEstudiante.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panResEstudiante, BorderLayout.CENTER);
         content.revalidate();
@@ -804,16 +812,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResEstudianteMousePressed
 
     private void btnResEstudianteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResEstudianteMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnResEstudiante);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnResEstudiante);
     }//GEN-LAST:event_btnResEstudianteMouseExited
 
     private void btnResEstudianteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResEstudianteMouseEntered
         if(btnResEstudiante.getBackground().getRGB() == bg)
-            setColor(btnResEstudiante);
+        setColor(btnResEstudiante);
     }//GEN-LAST:event_btnResEstudianteMouseEntered
 
     private void btnCursosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMousePressed
@@ -833,7 +841,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanCursos panCursos = new PanCursos();
         panCursos.setSize(842, 640);
         panCursos.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panCursos, BorderLayout.CENTER);
         content.revalidate();
@@ -841,16 +849,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCursosMousePressed
 
     private void btnCursosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnInicio.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnCursos);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnInicio.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnCursos);
     }//GEN-LAST:event_btnCursosMouseExited
 
     private void btnCursosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMouseEntered
         if(btnCursos.getBackground().getRGB() == bg)
-            setColor(btnCursos);
+        setColor(btnCursos);
     }//GEN-LAST:event_btnCursosMouseEntered
 
     private void btnEstudiantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstudiantesMousePressed
@@ -870,7 +878,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanEstudiantes panEstudiantes = new PanEstudiantes();
         panEstudiantes.setSize(842, 640);
         panEstudiantes.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panEstudiantes, BorderLayout.CENTER);
         content.revalidate();
@@ -878,16 +886,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEstudiantesMousePressed
 
     private void btnEstudiantesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstudiantesMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnEstudiantes);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnEstudiantes);
     }//GEN-LAST:event_btnEstudiantesMouseExited
 
     private void btnEstudiantesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstudiantesMouseEntered
         if(btnEstudiantes.getBackground().getRGB() == bg)
-            setColor(btnEstudiantes);
+        setColor(btnEstudiantes);
     }//GEN-LAST:event_btnEstudiantesMouseEntered
 
     private void btnUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMousePressed
@@ -904,6 +912,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         resetColor(btnMedicionRe);
         resetColor(btnPlanMedicionRe);
         // Abrir sección
+        
         PanUsuarios panUsuarios = new PanUsuarios();
         panUsuarios.setSize(842, 640);
         panUsuarios.setLocation(0,0);
@@ -915,16 +924,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsuariosMousePressed
 
     private void btnUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnUsuarios);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMouseExited
 
     private void btnUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseEntered
         if(btnUsuarios.getBackground().getRGB() == bg)
-            setColor(btnUsuarios);
+        setColor(btnUsuarios);
     }//GEN-LAST:event_btnUsuariosMouseEntered
 
     private void btnAsignarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMousePressed
@@ -944,7 +953,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanAsignar panAsignar = new PanAsignar();
         panAsignar.setSize(842, 640);
         panAsignar.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panAsignar, BorderLayout.CENTER);
         content.revalidate();
@@ -952,16 +961,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAsignarMousePressed
 
     private void btnAsignarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnInicio.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnAsignar);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnInicio.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnAsignar);
     }//GEN-LAST:event_btnAsignarMouseExited
 
     private void btnAsignarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseEntered
         if(btnAsignar.getBackground().getRGB() == bg)
-            setColor(btnAsignar);
+        setColor(btnAsignar);
     }//GEN-LAST:event_btnAsignarMouseEntered
 
     private void btnRubricaHolMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRubricaHolMousePressed
@@ -981,7 +990,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanRubricaHol panRubricaHol = new PanRubricaHol();
         panRubricaHol.setSize(842, 640);
         panRubricaHol.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panRubricaHol, BorderLayout.CENTER);
         content.revalidate();
@@ -989,16 +998,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRubricaHolMousePressed
 
     private void btnRubricaHolMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRubricaHolMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnRubricaHol);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnRubricaHol);
     }//GEN-LAST:event_btnRubricaHolMouseExited
 
     private void btnRubricaHolMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRubricaHolMouseEntered
         if(btnRubricaHol.getBackground().getRGB() == bg)
-            setColor(btnRubricaHol);
+        setColor(btnRubricaHol);
     }//GEN-LAST:event_btnRubricaHolMouseEntered
 
     private void btnCursosMedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMedMousePressed
@@ -1015,10 +1024,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         resetColor(btnMedicionRe);
         resetColor(btnPlanMedicionRe);
         // Abrir sección
-        PanCursos panCursos = new PanCursos();
+        PanCursosMed panCursos = new PanCursosMed();
         panCursos.setSize(842, 640);
         panCursos.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panCursos, BorderLayout.CENTER);
         content.revalidate();
@@ -1026,16 +1035,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCursosMedMousePressed
 
     private void btnCursosMedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMedMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnCursosMed);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnCursosMed);
     }//GEN-LAST:event_btnCursosMedMouseExited
 
     private void btnCursosMedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCursosMedMouseEntered
         if(btnCursosMed.getBackground().getRGB() == bg)
-            setColor(btnCursosMed);
+        setColor(btnCursosMed);
     }//GEN-LAST:event_btnCursosMedMouseEntered
 
     private void btnMedicionReMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMedicionReMousePressed
@@ -1055,7 +1064,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanMedicionRe panMedicionRe = new PanMedicionRe();
         panMedicionRe.setSize(842, 640);
         panMedicionRe.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panMedicionRe, BorderLayout.CENTER);
         content.revalidate();
@@ -1063,16 +1072,16 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMedicionReMousePressed
 
     private void btnMedicionReMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMedicionReMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnInicio.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
-            resetColor(btnMedicionRe);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnInicio.getBackground().getRGB() != bg || btnPlanMedicionRe.getBackground().getRGB() != bg)
+        resetColor(btnMedicionRe);
     }//GEN-LAST:event_btnMedicionReMouseExited
 
     private void btnMedicionReMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMedicionReMouseEntered
         if(btnMedicionRe.getBackground().getRGB() == bg)
-            setColor(btnMedicionRe);
+        setColor(btnMedicionRe);
     }//GEN-LAST:event_btnMedicionReMouseEntered
 
     private void btnPlanMedicionReMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanMedicionReMousePressed
@@ -1092,7 +1101,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         PanPlanMedicionRe panPlanMedicionRe = new PanPlanMedicionRe();
         panPlanMedicionRe.setSize(842, 640);
         panPlanMedicionRe.setLocation(0,0);
-        
+
         content.removeAll();
         content.add(panPlanMedicionRe, BorderLayout.CENTER);
         content.revalidate();
@@ -1100,61 +1109,80 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlanMedicionReMousePressed
 
     private void btnPlanMedicionReMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanMedicionReMouseExited
-        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg 
-                || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg 
-                || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
-                || btnMedicionRe.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg)
-            resetColor(btnPlanMedicionRe);
+        if(btnPlanCurricular.getBackground().getRGB() != bg || btnEvaluacion.getBackground().getRGB() != bg || btnResEstudiante.getBackground().getRGB() != bg
+            || btnCursos.getBackground().getRGB() != bg || btnEstudiantes.getBackground().getRGB() != bg || btnUsuarios.getBackground().getRGB() != bg
+            || btnAsignar.getBackground().getRGB() != bg || btnRubricaHol.getBackground().getRGB() != bg || btnCursosMed.getBackground().getRGB() != bg
+            || btnMedicionRe.getBackground().getRGB() != bg || btnInicio.getBackground().getRGB() != bg)
+        resetColor(btnPlanMedicionRe);
     }//GEN-LAST:event_btnPlanMedicionReMouseExited
 
     private void btnPlanMedicionReMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlanMedicionReMouseEntered
         if(btnPlanMedicionRe.getBackground().getRGB() == bg)
-            setColor(btnPlanMedicionRe);
+        setColor(btnPlanMedicionRe);
     }//GEN-LAST:event_btnPlanMedicionReMouseEntered
+
+    private void identificarUsuario() {
+        //if (admin.getApellido() != null)
+        if (admin.isPrivilegios()) //true
+            lblUsuario.setText("Superuser: " + admin.getNombre()+" "+admin.getApellido());
+        else
+            lblUsuario.setText("Admin: " + admin.getNombre()+" "+admin.getApellido());
+    }
     
-     
+    //eventos para cargar datos
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       identificarUsuario();
+       
+       //carga el dasboard de admin
+        PanDashboard panDashboard = new PanDashboard();
+        panDashboard.setSize(842, 640);
+        panDashboard.setLocation(0,0);
+
+        content.removeAll();
+        content.add(panDashboard, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_formWindowOpened
+
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        
-        
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DashboardAdmin().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new DashboardAdmin().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup btgAsignacion;
-    private javax.swing.ButtonGroup btgPrivilegios;
-    private javax.swing.ButtonGroup btgResutadosEst;
-    private javax.swing.ButtonGroup btgTipo;
-    private javax.swing.ButtonGroup btgTipoBuscar;
+    private javax.swing.JPanel background;
     private javax.swing.JPanel btnAsignar;
     private javax.swing.JPanel btnCursos;
     private javax.swing.JPanel btnCursosMed;
@@ -1168,7 +1196,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel btnRubricaHol;
     private javax.swing.JPanel btnUsuarios;
     private javax.swing.JPanel content;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
@@ -1195,6 +1222,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel97;
     private javax.swing.JLabel jLabel98;
     private javax.swing.JLabel jLabel99;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel panBotones;
     private javax.swing.JPanel panHeader;
     private javax.swing.JPanel panLateral;

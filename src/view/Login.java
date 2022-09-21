@@ -1,26 +1,32 @@
 
 package view;
 
-import icacit.Administrador;
-import icacit.Persona;
-import icacit.Profesor;
+import beans.Administrador;
+import beans.Profesor;
+import beans.Sede;
+import Utilidades.Utilitarios;
 import java.awt.Color;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import log.AdministradorLog;
+import log.ProfesorLog;
+import log.SedeLog;
 
 /**
  *
  * @author alfie
  */
 public class Login extends javax.swing.JFrame {
-
+    AdministradorLog administradorLog = new AdministradorLog();
+    ProfesorLog profesorLog = new ProfesorLog();
+    SedeLog  sedeLog = new SedeLog();
+    
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        setResizable(false);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null); //centrado de pantalla
     }
 
     /**
@@ -61,7 +67,7 @@ public class Login extends javax.swing.JFrame {
         panPrincipal.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
         txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        txtUsuario.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        txtUsuario.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(204, 204, 204));
         txtUsuario.setText("Ingrese nombre de usuario");
         txtUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,7 +92,7 @@ public class Login extends javax.swing.JFrame {
         panPrincipal.add(lblPasswd, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
         pwdPassword.setBackground(new java.awt.Color(255, 255, 255));
-        pwdPassword.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        pwdPassword.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
         pwdPassword.setForeground(new java.awt.Color(204, 204, 204));
         pwdPassword.setText("**********");
         pwdPassword.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -111,6 +117,7 @@ public class Login extends javax.swing.JFrame {
         panPrincipal.add(lblTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
         cmbTipo.setBackground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
         cmbTipo.setForeground(new java.awt.Color(255, 255, 255));
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Profesor" }));
         cmbTipo.setToolTipText("");
@@ -202,47 +209,49 @@ public class Login extends javax.swing.JFrame {
         String password = String.valueOf(pwdPassword.getPassword());
         if(!usuario.equals("Ingrese nombre de usuario") && !password.equals("**********") && !usuario.isEmpty() && !password.isEmpty())
         {
-            Persona persona;
-            boolean band;
-            if (getCmbTipo() == 0) { //Cuenta Administrador
-                persona = new Administrador(usuario, password);
-                band = ((Administrador)persona).iniciarSesion();
-                if(band) {
-                    System.out.println("Acceso concedido admin");
-                    DashboardAdmin.admin = ((Administrador)persona);
+            if (cmbTipo.getSelectedIndex() == 0) { //Cuenta Administrador
+                Administrador administrador = new Administrador(usuario, password);
+                Sede objSede = new Sede();
+                //si la condicion es cierta entra como admin
+                if (administradorLog.sesion(administrador, 0)) { //enviamos el admin y 0 = admin
+                    DashboardAdmin.admin = administrador;
+                    objSede.setSedeId(administrador.getSedeId()); //carga la sede a la q pertenece
+                    sedeLog.buscar(objSede); //busca la sede a la q pertenece
+                    DashboardAdmin.sede = objSede; //le pasamos un obj sede a la ventana principal
                     JFrame inicio = new DashboardAdmin(); // instanciamos la ventana principal
                     inicio.setLocationRelativeTo(null); //centrado de pantalla
                     inicio.setResizable(false);
                     inicio.setVisible(true);
                     this.dispose();
+                } else {
+                    txtUsuario.setText("Ingrese nombre de usuario");
+                    txtUsuario.setForeground(new Color(204, 204, 204));
+                    pwdPassword.setText("**********");
+                    pwdPassword.setForeground(new Color(204, 204, 204));
                 }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Usuario y/o contraseña Incorrecta!!!", "Alerta", JOptionPane.WARNING_MESSAGE);
-                }
+                           
             } else { // Cuenta Profesor
-                persona = new Profesor(usuario, password);
-                band = ((Profesor)persona).iniciarSesion();
-                if (band) {
-                    System.out.println("Acceso concedido profesor");
-                    PrincipalProf.profAdmin = ((Profesor)persona);
-                    JFrame inicio = new PrincipalProf(); // instanciamos la ventana principal
+                Profesor profesor = new Profesor(usuario, password);
+                if (profesorLog.sesion(profesor, 1)) {
+                    DashboardProf.admin = profesor;
+                    JFrame inicio = new DashboardProf(); // instanciamos la ventana principal
                     inicio.setLocationRelativeTo(null); //centrado de pantalla
                     inicio.setResizable(false);
                     inicio.setVisible(true);
                     this.dispose();
+                } else {
+                    txtUsuario.setText("Ingrese nombre de usuario");
+                    txtUsuario.setForeground(new Color(204, 204, 204));
+                    pwdPassword.setText("**********");
+                    pwdPassword.setForeground(new Color(204, 204, 204));
                 }
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(null, "Ingrese todos los campos");
+            Utilitarios.mensaje("Ingrese datos en el formulario", 1);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
-
-    private int getCmbTipo() {
-        return cmbTipo.getSelectedIndex();
-    }
 
     private void txtUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMousePressed
         // TODO add your handling code here:

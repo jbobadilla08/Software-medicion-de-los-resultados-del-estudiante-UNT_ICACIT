@@ -5,17 +5,50 @@
  */
 package view;
 
+import beans.Ciclo;
+import beans.Curso;
+import beans.Momento;
+import beans.PlanCurricular;
+import Utilidades.Utilitarios;
+import java.awt.Font;
+import java.util.Iterator;
+import java.util.LinkedList;
+import javax.swing.JComboBox;
+import log.CicloLog;
+import log.CursoLog;
+import log.MomentoLog;
+import log.PlanCurricularLog;
+
 /**
  *
  * @author alfie
  */
 public class PanCursos extends javax.swing.JPanel {
-
+    CursoLog objCu = new CursoLog();
+    CicloLog objCi = new CicloLog();
+    PlanCurricularLog objPc = new PlanCurricularLog();
+    MomentoLog objMn = new MomentoLog();
+    
+    Curso auxCurso;
+    Ciclo auxCiclo;
+    PlanCurricular auxPlanCurricular;
+    Momento auxMomento;
+    
+    private LinkedList<PlanCurricular> listPlanCurriculars = objPc.lista();
+    private LinkedList<Ciclo> listCiclos = objCi.lista();
+    private LinkedList<Momento> listMomentos = objMn.lista();
+    
+    
+    boolean privilegio = DashboardAdmin.admin.isPrivilegios();
+    boolean bandCurso = false; // bandera para guardar o actualizar un registros
+    boolean bandCiclo = false; //bandera para la Gui criterios
+    boolean bandMomento = false; //bandera para la Gui criterios
     /**
      * Creates new form FrmCursos
      */
     public PanCursos() {
         initComponents();
+        ConfigInicial();
     }
 
     /**
@@ -27,94 +60,249 @@ public class PanCursos extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel18 = new javax.swing.JLabel();
+        btgTipo = new javax.swing.ButtonGroup();
+        Vigente = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        Cursos = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txtIdCurso = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtNombreCurso = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtCodigoCurso = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtCreditosCurso = new javax.swing.JTextField();
+        cmbPlanCurso = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cmbCicloCurso = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel30 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel32 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jLabel38 = new javax.swing.JLabel();
-        jButton26 = new javax.swing.JButton();
+        btnNuevoCursos = new javax.swing.JButton();
+        btnGuardarCursos = new javax.swing.JButton();
+        btnBuscarCursos = new javax.swing.JButton();
+        btnEliminarCursos = new javax.swing.JButton();
+        btnEditarCursos = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jButton15 = new javax.swing.JButton();
-        jLabel33 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        tblCursos = new javax.swing.JTable();
+        btnBusquedaCurso = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        jPanel25 = new javax.swing.JPanel();
-        jButton47 = new javax.swing.JButton();
-        jButton48 = new javax.swing.JButton();
-        jButton49 = new javax.swing.JButton();
-        jButton50 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        txtBusquedaCurso = new javax.swing.JTextField();
+        Ciclos = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        txtIdCiclo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtNombreCiclo = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        cmbMomentoCiclo = new javax.swing.JComboBox<>();
+        jrbPar = new javax.swing.JRadioButton();
+        jrbImpar = new javax.swing.JRadioButton();
+        jPanel9 = new javax.swing.JPanel();
+        btnNuevoCiclo = new javax.swing.JButton();
+        btnGuardarCiclo = new javax.swing.JButton();
+        btnBuscarCiclo = new javax.swing.JButton();
+        btnEliminarCiclo = new javax.swing.JButton();
+        btnEditarCiclo = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblCiclos = new javax.swing.JTable();
+        Momentos = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        txtIdMomento = new javax.swing.JTextField();
+        txtNombreMomento = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jrbSi = new javax.swing.JRadioButton();
+        jrbNo = new javax.swing.JRadioButton();
+        jPanel12 = new javax.swing.JPanel();
+        btnNuevoMomento = new javax.swing.JButton();
+        btnGuardarMomento = new javax.swing.JButton();
+        btnBuscarMomento = new javax.swing.JButton();
+        btnEliminarMomento = new javax.swing.JButton();
+        btnEditarMomento = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tblMomentos = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        cmbVigenteMn = new javax.swing.JComboBox<>();
+        btnBuscarVigentes = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(238, 238, 238));
+        setBackground(new java.awt.Color(214, 217, 223));
 
-        jLabel18.setFont(new java.awt.Font("Roboto", 2, 18)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(214, 93, 14));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Registro de Cursos");
+        jTabbedPane1.setBackground(new java.awt.Color(214, 217, 223));
 
-        jPanel8.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingresar Datos ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto Medium", 0, 14), new java.awt.Color(69, 133, 166))); // NOI18N
-        jPanel8.setName(""); // NOI18N
+        Cursos.setBackground(new java.awt.Color(214, 217, 223));
 
-        jLabel29.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel29.setText("Código:");
+        jPanel1.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
 
-        jTextField7.setBackground(new java.awt.Color(238, 238, 238));
-        jTextField7.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jTextField7.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel2.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel2.setText("ID:");
 
-        jLabel27.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel27.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel27.setText("Descripción:");
+        txtIdCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtIdCurso.setForeground(new java.awt.Color(29, 32, 33));
+        txtIdCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdCursoKeyTyped(evt);
+            }
+        });
 
-        jTextField3.setBackground(new java.awt.Color(238, 238, 238));
-        jTextField3.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel4.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel4.setText("Descripción:");
 
-        jLabel28.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel28.setText("Creditos:");
+        txtNombreCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtNombreCurso.setForeground(new java.awt.Color(29, 32, 33));
+        txtNombreCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreCursoKeyTyped(evt);
+            }
+        });
 
-        jTextField5.setBackground(new java.awt.Color(238, 238, 238));
-        jTextField5.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel3.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel3.setText("Código:");
 
-        jLabel30.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel30.setText("Plan Curricular:");
+        txtCodigoCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtCodigoCurso.setForeground(new java.awt.Color(29, 32, 33));
+        txtCodigoCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoCursoKeyTyped(evt);
+            }
+        });
 
-        jComboBox3.setBackground(new java.awt.Color(238, 238, 238));
-        jComboBox3.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jComboBox3.setForeground(new java.awt.Color(29, 32, 33));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2000", "2018", " " }));
+        jLabel5.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel5.setText("Creditos:");
 
-        jLabel32.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel32.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel32.setText("Ciclo:");
+        txtCreditosCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtCreditosCurso.setForeground(new java.awt.Color(29, 32, 33));
+        txtCreditosCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCreditosCursoKeyTyped(evt);
+            }
+        });
 
-        jComboBox5.setBackground(new java.awt.Color(238, 238, 238));
-        jComboBox5.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jComboBox5.setForeground(new java.awt.Color(29, 32, 33));
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I", "II", "III", "IV" }));
+        cmbPlanCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        cmbPlanCurso.setForeground(new java.awt.Color(29, 32, 33));
 
-        jLabel38.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel38.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel38.setText("Ciclos:");
+        jLabel6.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel6.setText("Plan Curricular:");
 
-        jButton26.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton26.setText("Administrar");
+        jLabel7.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel7.setText("Ciclo:");
+
+        cmbCicloCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        cmbCicloCurso.setForeground(new java.awt.Color(29, 32, 33));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNombreCurso))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtIdCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbPlanCurso, 0, 166, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbCicloCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCodigoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCreditosCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtIdCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbPlanCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(cmbCicloCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNombreCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtCreditosCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtCodigoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel8.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Operaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+
+        btnNuevoCursos.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnNuevoCursos.setForeground(new java.awt.Color(29, 32, 33));
+        btnNuevoCursos.setText("Nuevo");
+        btnNuevoCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoCursosActionPerformed(evt);
+            }
+        });
+
+        btnGuardarCursos.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnGuardarCursos.setForeground(new java.awt.Color(29, 32, 33));
+        btnGuardarCursos.setText("Guardar");
+        btnGuardarCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarCursosActionPerformed(evt);
+            }
+        });
+
+        btnBuscarCursos.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnBuscarCursos.setForeground(new java.awt.Color(29, 32, 33));
+        btnBuscarCursos.setText("Buscar");
+        btnBuscarCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarCursosActionPerformed(evt);
+            }
+        });
+
+        btnEliminarCursos.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEliminarCursos.setForeground(new java.awt.Color(29, 32, 33));
+        btnEliminarCursos.setText("Eliminar");
+
+        btnEditarCursos.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEditarCursos.setForeground(new java.awt.Color(29, 32, 33));
+        btnEditarCursos.setText("Editar");
+        btnEditarCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarCursosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -123,271 +311,1211 @@ public class PanCursos extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel27)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField3)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel28)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel30)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox3, 0, 234, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel32)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox5, 0, 169, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel38)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnNuevoCursos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardarCursos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminarCursos, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(btnBuscarCursos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarCursos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel29)
-                    .addComponent(jLabel27)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel30)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel32)
-                    .addComponent(jLabel38)
-                    .addComponent(jButton26))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnNuevoCursos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarCursos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscarCursos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarCursos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditarCursos))
         );
 
-        jPanel10.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualización de Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto Medium", 0, 14), new java.awt.Color(69, 133, 166))); // NOI18N
+        jPanel10.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualización", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
         jPanel10.setOpaque(false);
 
-        jTable5.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblCursos.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tblCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "CODIGO", "DESCRIPCION", "CREDITOS", "CICLO", "PLAN C."
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            }
+        ));
+        tblCursos.setGridColor(new java.awt.Color(153, 153, 153));
+        jScrollPane5.setViewportView(tblCursos);
+
+        btnBusquedaCurso.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        btnBusquedaCurso.setText("Buscar");
+        btnBusquedaCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBusquedaCursoActionPerformed(evt);
             }
         });
-        jTable5.setGridColor(new java.awt.Color(153, 153, 153));
-        jScrollPane5.setViewportView(jTable5);
-
-        jButton15.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton15.setText("Buscar");
-
-        jLabel33.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jLabel33.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel33.setText("Plan Curricular:");
-
-        jComboBox6.setBackground(new java.awt.Color(238, 238, 238));
-        jComboBox6.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jComboBox6.setForeground(new java.awt.Color(29, 32, 33));
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2000", "2018", " " }));
 
         jLabel34.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
         jLabel34.setForeground(new java.awt.Color(40, 40, 40));
-        jLabel34.setText("Ciclo:");
+        jLabel34.setText("Nombre:");
 
-        jComboBox7.setBackground(new java.awt.Color(238, 238, 238));
-        jComboBox7.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jComboBox7.setForeground(new java.awt.Color(29, 32, 33));
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "I", "II", "III", "IV" }));
+        txtBusquedaCurso.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtBusquedaCurso.setForeground(new java.awt.Color(29, 32, 33));
+        txtBusquedaCurso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaCursoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel33)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBusquedaCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnBusquedaCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel34)
-                        .addComponent(jButton15))
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel33)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(btnBusquedaCurso)
+                    .addComponent(txtBusquedaCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel25.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel25.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Operaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto Medium", 0, 14), new java.awt.Color(69, 133, 166))); // NOI18N
-
-        jButton47.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton47.setText("AGREGAR");
-
-        jButton48.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton48.setText("ACTUALIZAR");
-
-        jButton49.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton49.setText("LIMPIAR");
-
-        jButton50.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton50.setText("ELIMINAR");
-
-        jButton7.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        jButton7.setText("<<");
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton47)
-                    .addComponent(jButton48)
-                    .addComponent(jButton50)
-                    .addComponent(jButton49)
-                    .addComponent(jButton7))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        javax.swing.GroupLayout CursosLayout = new javax.swing.GroupLayout(Cursos);
+        Cursos.setLayout(CursosLayout);
+        CursosLayout.setHorizontalGroup(
+            CursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CursosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(CursosLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        CursosLayout.setVerticalGroup(
+            CursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CursosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Cursos", Cursos);
+
+        Ciclos.setBackground(new java.awt.Color(214, 217, 223));
+
+        jPanel2.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel8.setText("ID:");
+
+        txtIdCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtIdCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        txtIdCiclo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdCicloKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel9.setText("Momento:");
+
+        txtNombreCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtNombreCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        txtNombreCiclo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreCicloKeyTyped(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel12.setText("Descripción:");
+
+        jLabel13.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel13.setText("Semestre:");
+
+        cmbMomentoCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        cmbMomentoCiclo.setForeground(new java.awt.Color(29, 32, 33));
+
+        btgTipo.add(jrbPar);
+        jrbPar.setText("Par");
+
+        btgTipo.add(jrbImpar);
+        jrbImpar.setText("Impar");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtIdCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNombreCiclo, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jrbPar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jrbImpar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbMomentoCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtIdCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(txtNombreCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jrbPar)
+                    .addComponent(jrbImpar))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(cmbMomentoCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel9.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Operaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+
+        btnNuevoCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnNuevoCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        btnNuevoCiclo.setText("Nuevo");
+        btnNuevoCiclo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoCicloActionPerformed(evt);
+            }
+        });
+
+        btnGuardarCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnGuardarCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        btnGuardarCiclo.setText("Guardar");
+        btnGuardarCiclo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarCicloActionPerformed(evt);
+            }
+        });
+
+        btnBuscarCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnBuscarCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        btnBuscarCiclo.setText("Buscar");
+        btnBuscarCiclo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarCicloActionPerformed(evt);
+            }
+        });
+
+        btnEliminarCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEliminarCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        btnEliminarCiclo.setText("Eliminar");
+
+        btnEditarCiclo.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEditarCiclo.setForeground(new java.awt.Color(29, 32, 33));
+        btnEditarCiclo.setText("Editar");
+        btnEditarCiclo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarCicloActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNuevoCiclo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardarCiclo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminarCiclo, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(btnBuscarCiclo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarCiclo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(btnNuevoCiclo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarCiclo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscarCiclo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarCiclo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditarCiclo))
+        );
+
+        jPanel11.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualización", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+        jPanel11.setOpaque(false);
+
+        tblCiclos.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tblCiclos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblCiclos.setGridColor(new java.awt.Color(153, 153, 153));
+        jScrollPane6.setViewportView(tblCiclos);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout CiclosLayout = new javax.swing.GroupLayout(Ciclos);
+        Ciclos.setLayout(CiclosLayout);
+        CiclosLayout.setHorizontalGroup(
+            CiclosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CiclosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(CiclosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(CiclosLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        CiclosLayout.setVerticalGroup(
+            CiclosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CiclosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CiclosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(396, 396, 396))
+            .addGroup(CiclosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CiclosLayout.createSequentialGroup()
+                    .addContainerGap(229, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(22, 22, 22)))
+        );
+
+        jTabbedPane1.addTab("Ciclos", Ciclos);
+
+        Momentos.setBackground(new java.awt.Color(214, 217, 223));
+
+        jPanel3.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel10.setText("ID:");
+
+        txtIdMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtIdMomento.setForeground(new java.awt.Color(29, 32, 33));
+        txtIdMomento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdMomentoKeyTyped(evt);
+            }
+        });
+
+        txtNombreMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        txtNombreMomento.setForeground(new java.awt.Color(29, 32, 33));
+        txtNombreMomento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreMomentoKeyTyped(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel14.setText("Descripción:");
+
+        jLabel15.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel15.setText("Vigente:");
+
+        Vigente.add(jrbSi);
+        jrbSi.setSelected(true);
+        jrbSi.setText("Si");
+
+        Vigente.add(jrbNo);
+        jrbNo.setText("No");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtIdMomento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addGap(18, 18, 18)
+                .addComponent(txtNombreMomento)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrbSi)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jrbNo)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtIdMomento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(txtNombreMomento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jrbSi)
+                    .addComponent(jrbNo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel12.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Operaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+
+        btnNuevoMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnNuevoMomento.setForeground(new java.awt.Color(29, 32, 33));
+        btnNuevoMomento.setText("Nuevo");
+        btnNuevoMomento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoMomentoActionPerformed(evt);
+            }
+        });
+
+        btnGuardarMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnGuardarMomento.setForeground(new java.awt.Color(29, 32, 33));
+        btnGuardarMomento.setText("Guardar");
+        btnGuardarMomento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarMomentoActionPerformed(evt);
+            }
+        });
+
+        btnBuscarMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnBuscarMomento.setForeground(new java.awt.Color(29, 32, 33));
+        btnBuscarMomento.setText("Buscar");
+        btnBuscarMomento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMomentoActionPerformed(evt);
+            }
+        });
+
+        btnEliminarMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEliminarMomento.setForeground(new java.awt.Color(29, 32, 33));
+        btnEliminarMomento.setText("Eliminar");
+
+        btnEditarMomento.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnEditarMomento.setForeground(new java.awt.Color(29, 32, 33));
+        btnEditarMomento.setText("Editar");
+        btnEditarMomento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarMomentoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNuevoMomento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardarMomento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminarMomento, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(btnBuscarMomento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditarMomento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(btnNuevoMomento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarMomento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscarMomento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarMomento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditarMomento))
+        );
+
+        jPanel13.setBackground(new java.awt.Color(214, 217, 223));
+        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualización", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("JetBrainsMono Nerd Font", 2, 12), new java.awt.Color(175, 58, 3))); // NOI18N
+        jPanel13.setOpaque(false);
+
+        tblMomentos.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tblMomentos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblMomentos.setGridColor(new java.awt.Color(153, 153, 153));
+        jScrollPane7.setViewportView(tblMomentos);
+
+        jLabel11.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(29, 32, 33));
+        jLabel11.setText("Mostrar:");
+
+        cmbVigenteMn.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        cmbVigenteMn.setForeground(new java.awt.Color(29, 32, 33));
+        cmbVigenteMn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activos", "Inactivos" }));
+
+        btnBuscarVigentes.setFont(new java.awt.Font("JetBrainsMono Nerd Font", 0, 14)); // NOI18N
+        btnBuscarVigentes.setForeground(new java.awt.Color(29, 32, 33));
+        btnBuscarVigentes.setText("Buscar");
+        btnBuscarVigentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarVigentesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbVigenteMn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscarVigentes)))
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscarVigentes)
+                    .addComponent(cmbVigenteMn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout MomentosLayout = new javax.swing.GroupLayout(Momentos);
+        Momentos.setLayout(MomentosLayout);
+        MomentosLayout.setHorizontalGroup(
+            MomentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MomentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(MomentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MomentosLayout.createSequentialGroup()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        MomentosLayout.setVerticalGroup(
+            MomentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MomentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(MomentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(328, 328, 328))
+        );
+
+        jTabbedPane1.addTab("Momentos", Momentos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(500, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(146, 146, 146)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(94, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(565, Short.MAX_VALUE)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+            .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void configTblCursos(String descripcion) {
+        tblCursos.setModel(objCu.listTable(descripcion));
+        //cargamos la tabla de niveles de logro
+        this.tblCursos.getTableHeader().setReorderingAllowed(false); //captura el encabezado
+        this.tblCursos.getTableHeader().setFont(new Font("JetBrainsMonoMedium Nerd Font", Font.PLAIN, 12));
+        this.tblCursos.setRowHeight(20); //configura el tamaño de las celdas
+        //Se define el tamaño de largo para cada columna y su contenido
+        this.tblCursos.getColumnModel().getColumn(0).setPreferredWidth(5); //id
+        this.tblCursos.getColumnModel().getColumn(1).setPreferredWidth(20); //Código
+        this.tblCursos.getColumnModel().getColumn(2).setPreferredWidth(270); //Nombre
+        this.tblCursos.getColumnModel().getColumn(3).setPreferredWidth(10); //Creditos
+        this.tblCursos.getColumnModel().getColumn(4).setPreferredWidth(50); //Plan Curricular
+        this.tblCursos.getColumnModel().getColumn(5).setPreferredWidth(10); //Ciclo
+    }
+    
+    private void configTblCiclos() {
+        tblCiclos.setModel(objCi.listTable());
+        //cargamos la tabla de niveles de logro
+        this.tblCiclos.getTableHeader().setReorderingAllowed(false); //captura el encabezado
+        this.tblCiclos.getTableHeader().setFont(new Font("JetBrainsMonoMedium Nerd Font", Font.PLAIN, 12));
+        this.tblCiclos.setRowHeight(20); //configura el tamaño de las celdas
+        //Se define el tamaño de largo para cada columna y su contenido
+        this.tblCiclos.getColumnModel().getColumn(0).setPreferredWidth(10); //id
+        this.tblCiclos.getColumnModel().getColumn(1).setPreferredWidth(50); //Descripción
+        this.tblCiclos.getColumnModel().getColumn(2).setPreferredWidth(20); //Par-Impar
+        this.tblCiclos.getColumnModel().getColumn(3).setPreferredWidth(50); //momento
+    }
+    
+    private void configTblMomentos(boolean vigente) {
+        tblMomentos.setModel(objMn.listTable(vigente));
+        //cargamos la tabla de niveles de logro
+        this.tblMomentos.getTableHeader().setReorderingAllowed(false); //captura el encabezado
+        this.tblMomentos.getTableHeader().setFont(new Font("JetBrainsMonoMedium Nerd Font", Font.PLAIN, 12));
+        this.tblMomentos.setRowHeight(20); //configura el tamaño de las celdas
+        //Se define el tamaño de largo para cada columna y su contenido
+        this.tblMomentos.getColumnModel().getColumn(0).setPreferredWidth(10); //id
+        this.tblMomentos.getColumnModel().getColumn(1).setPreferredWidth(50); //Descripción
+    }
+    
+    private void ConfigInicial() {
+        configTblCursos("");
+        configTblCiclos();
+        configTblMomentos(true);
+        cajasCu(false,false);
+        cajasCi(false, false);
+        cajasMn(false, false);
+        if (privilegio == true) {
+            botonesCu(true, false, false, false, true);
+            botonesCi(true, false, false, false, true);
+            botonesMn(true, false, false, false, true);
+        }
+        else {
+            botonesCu(false, false, false, false, false);
+            botonesCi(false, false, false, false, false);
+            botonesMn(false, false, false, false, false);
+        }
+    }
+    
+    /**
+     * carga en un JComboBox los datos de plan curricular
+     * @param jComboBox 
+     */
+    private void cargarJComboBoxPc(JComboBox jComboBox) {
+        Iterator<PlanCurricular> itr = listPlanCurriculars.iterator(); //copia de la lista de resultados
+        PlanCurricular aux = null;
+        //eliminamos el contenido de los jcombobox
+        jComboBox.removeAllItems();
+        //recorremos la lista de Resultados
+        while (itr.hasNext()) { 
+            aux = itr.next();
+            jComboBox.addItem(aux.getPlanEstudios());
+        }
+    }
+    
+    /**
+     * carga en un JComboBox los datos de ciclos
+     * @param jComboBox 
+     */
+    private void cargarJComboBoxCi(JComboBox jComboBox) {
+        Iterator<Ciclo> itr = listCiclos.iterator(); //copia de la lista de resultados
+        Ciclo aux = null;
+        //eliminamos el contenido de los jcombobox
+        jComboBox.removeAllItems();
+        //recorremos la lista de Resultados
+        while (itr.hasNext()) { 
+            aux = itr.next();
+            jComboBox.addItem(aux.getDescripcion());
+        }
+    }
+    
+    /**
+     * carga en un JComboBox los datos de momento
+     * @param jComboBox 
+     */
+    private void cargarJComboBoxMn(JComboBox jComboBox) {
+        Iterator<Momento> itr = listMomentos.iterator(); //copia de la lista de resultados
+        Momento aux = null;
+        //eliminamos el contenido de los jcombobox
+        jComboBox.removeAllItems();
+        //recorremos la lista de Resultados
+        while (itr.hasNext()) { 
+            aux = itr.next();
+            jComboBox.addItem(aux.getNombre());
+        }
+    }
+    
+    private byte selectPlanCr(JComboBox jComboBox){
+        byte idPlan = 0;
+        Iterator<PlanCurricular> itPc = listPlanCurriculars.iterator();
+        PlanCurricular pc = null;
+        while (itPc.hasNext()) {            
+            pc = itPc.next();
+            if (jComboBox.getSelectedItem().equals(pc.getPlanEstudios())) {
+                idPlan = pc.getPlancId();
+                break;
+            }
+        }
+        return idPlan;
+    }
+    
+    private byte selectCiclo(JComboBox jComboBox){
+        byte idCiclo = 0;
+        Iterator<Ciclo> itCl = listCiclos.iterator();
+        Ciclo cl = null;
+        while (itCl.hasNext()) {            
+            cl = itCl.next();
+            if (jComboBox.getSelectedItem().equals(cl.getDescripcion())) {
+                idCiclo = cl.getCicloId();
+                break;
+            }
+        }
+        return idCiclo;
+    }
+    
+    private byte selectMomento(JComboBox jComboBox){
+        byte idMomento = 0;
+        Iterator<Momento> itMn = listMomentos.iterator();
+        Momento mn = null;
+        while (itMn.hasNext()) {            
+            mn = itMn.next();
+            if (jComboBox.getSelectedItem().equals(mn.getNombre())) {
+                idMomento = mn.getMomentoId();
+                break;
+            }
+        }
+        return idMomento;
+    }
+    private void btnNuevoCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoCursosActionPerformed
+        bandCurso = true; //activa para guardar un nuevo elemento
+        cargarJComboBoxPc(cmbPlanCurso);
+        cargarJComboBoxCi(cmbCicloCurso);
+        cajasCu(false, true);
+        botonesCu(false, true, false, false, false);
+    }//GEN-LAST:event_btnNuevoCursosActionPerformed
+
+    private void btnGuardarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCursosActionPerformed
+        String descripcion = txtNombreCurso.getText().trim(); //captura el nombre del curso
+        String codigo =  txtCodigoCurso.getText().trim(); //codigo
+        byte creditos = Byte.parseByte(txtCreditosCurso.getText());
+        
+        //capturamos el plan seleccionado
+        byte idPlan = selectPlanCr(cmbPlanCurso);
+        //capturamos el momento selecionado
+        byte idCiclo = selectCiclo(cmbCicloCurso);
+        int rptaPlan = -1;
+        int rptaCiclo = -1;
+                
+        if (!descripcion.equals("") && !codigo.equals("") && !txtCreditosCurso.getText().equals("")) { //distinitos de vacio
+            if (bandCurso) {//band = true guarda un curso
+                objCu.agregar(codigo, descripcion, creditos, idPlan, idCiclo);
+            } else { //band = false actualiza un criterio
+                editableCu(true);
+                int idCr = Integer.parseInt(txtIdCurso.getText());
+                if (idPlan != auxPlanCurricular.getPlancId())
+                    rptaPlan = Utilitarios.confirmacion("El plan es un dato sensible, desea modificarlo?", 0);
+                if (idCiclo != auxCiclo.getCicloId())
+                    rptaCiclo = Utilitarios.confirmacion("El ciclo es un dato sensible, desea modificarlo?", 0);
+                
+                if (rptaPlan == 0 && rptaCiclo == 0) { //
+                    objCu.actualizar(idCr, codigo, descripcion, creditos, idPlan, idCiclo);
+                } else if (rptaPlan == 0 && rptaCiclo == -1) { //cambio de momento + definicion
+                    objCu.actualizar(idCr, codigo, descripcion, creditos, idPlan, auxCiclo.getCicloId());
+                } else if (rptaPlan == -1 && rptaCiclo == 0) { //cambio de criterio y momento + definicion
+                    objCu.actualizar(idCr, codigo, descripcion, creditos, auxPlanCurricular.getPlancId(), idCiclo);
+                } else if (!descripcion.equals(auxCurso.getDescripcion()) || !codigo.equals(auxCurso.getCodigo()) || creditos != auxCurso.getCreditos()){ // solo cambia el la definicion
+                    objCu.actualizar(idCr, codigo, descripcion, creditos, auxPlanCurricular.getPlancId(), auxCiclo.getCicloId());
+                } else {
+                    Utilitarios.mensaje("No realizó ningún cambio", 1);
+                }
+            }
+            txtBusquedaCurso.setText("");
+            configTblCursos("");
+            cajasCu(false, false);
+            botonesCu(true, false, false, false, true);
+            limpiarCu();
+        } else {
+            Utilitarios.mensaje("Ingrese todos los datos del formulario!!!", 2);
+        }
+    }//GEN-LAST:event_btnGuardarCursosActionPerformed
+
+    private void btnBuscarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCursosActionPerformed
+        if (!txtIdCurso.getText().equals("")) {
+            auxCurso = new Curso(Integer.parseInt(txtIdCurso.getText()));
+            if (objCu.buscar(auxCurso)) { //true fue encontrado
+                txtCodigoCurso.setText(auxCurso.getCodigo()); //codigo del curso
+                txtNombreCurso.setText(auxCurso.getDescripcion()); // nombre del curso
+                txtCreditosCurso.setText(String.valueOf(auxCurso.getCreditos())); //creditos del curso
+                //cargamos los datos del plan curricular
+                cargarJComboBoxPc(cmbPlanCurso);
+                auxPlanCurricular = new PlanCurricular(auxCurso.getPlanCurricular());
+                objPc.buscar(auxPlanCurricular); //buscamos el plan
+                cmbPlanCurso.setSelectedItem(auxPlanCurricular.getPlanEstudios());
+                
+                //cargamos los datos del ciclo
+                cargarJComboBoxCi(cmbCicloCurso);
+                auxCiclo = new Ciclo(auxCurso.getCicloId());
+                objCi.buscar(auxCiclo);
+                cmbCicloCurso.setSelectedItem(auxCiclo.getDescripcion());
+                
+                
+                editableCu(false);
+                cajasCu(true, true);
+                botonesCu(false, true, false, false, false);
+            } else {
+                limpiarCu();
+                cajasCu(false, false);
+                botonesCu(true, false, false, false, true);
+            }
+        } else {
+            Utilitarios.mensaje("Ingrese el ID del Curso que desea buscar", 2);
+        }
+    }//GEN-LAST:event_btnBuscarCursosActionPerformed
+
+    private void btnEditarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCursosActionPerformed
+        bandCurso = false;
+        cajasCu(true, false);
+        botonesCu(false, false, true, false, false);
+    }//GEN-LAST:event_btnEditarCursosActionPerformed
+
+    private void txtIdCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdCursoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9')
+        evt.consume();
+    }//GEN-LAST:event_txtIdCursoKeyTyped
+
+    private void txtNombreCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCursoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c!=' ') && (c!=',') && (c!='.')
+            && (c!='á') && (c!='é')&& (c!='í')&& (c!='ó')&& (c!='ú')
+            && (c!='Á')&& (c!='É')&& (c!='Í')&& (c!='Ó')&& (c!='Ú'))
+        evt.consume();
+    }//GEN-LAST:event_txtNombreCursoKeyTyped
+
+    private void txtCodigoCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoCursoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoCursoKeyTyped
+
+    private void txtCreditosCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCreditosCursoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9')
+        evt.consume();
+    }//GEN-LAST:event_txtCreditosCursoKeyTyped
+
+    private void txtBusquedaCursoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCursoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c!=' ') && (c!=',') && (c!='.')
+            && (c!='á') && (c!='é')&& (c!='í')&& (c!='ó')&& (c!='ú')
+            && (c!='Á')&& (c!='É')&& (c!='Í')&& (c!='Ó')&& (c!='Ú'))
+        evt.consume();
+    }//GEN-LAST:event_txtBusquedaCursoKeyTyped
+
+    private void btnBusquedaCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaCursoActionPerformed
+        String descripcion = txtBusquedaCurso.getText().trim();
+        configTblCursos(descripcion);
+    }//GEN-LAST:event_btnBusquedaCursoActionPerformed
+
+    private void txtIdCicloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdCicloKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9')
+        evt.consume();
+    }//GEN-LAST:event_txtIdCicloKeyTyped
+
+    private void txtNombreCicloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCicloKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c!=' '))
+            evt.consume();
+    }//GEN-LAST:event_txtNombreCicloKeyTyped
+
+    private void btnNuevoCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoCicloActionPerformed
+        bandCiclo = true; //activa para guardar un nuevo elemento
+        cargarJComboBoxMn(cmbMomentoCiclo);        
+        jrbPar.setSelected(true);
+        cajasCi(false, true);
+        botonesCi(false, true, false, false, false);
+    }//GEN-LAST:event_btnNuevoCicloActionPerformed
+
+    private void btnGuardarCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCicloActionPerformed
+        String descripcion = txtNombreCiclo.getText().trim(); //captura el nombre del curso
+        boolean seleccionado = (jrbPar.isSelected() == true ? false : true);
+        //capturamos el plan seleccionado
+        byte idMomento = selectMomento(cmbMomentoCiclo);
+        
+        int rptaMomento = -1;
+                
+        if (!descripcion.equals("")) { //distinitos de vacio
+            if (bandCiclo) {//band = true guarda un curso
+                objCi.agregar(descripcion, seleccionado, idMomento);
+            } else { //band = false actualiza un criterio
+                editableCi(true);
+                byte idCl = Byte.parseByte(txtIdCiclo.getText());
+                if (idMomento != auxMomento.getMomentoId())
+                    rptaMomento = Utilitarios.confirmacion("El momento es un dato sensible, desea modificarlo?", 0);
+                
+                if (rptaMomento == 0) { //actualiza
+                    objCi.actualizar(idCl, descripcion, seleccionado, idMomento);          
+                } else if (!descripcion.equals(auxCiclo.getDescripcion()) || (seleccionado != auxCiclo.isParImpar()) ){ // solo cambia el la definicion
+                    objCi.actualizar(idCl, descripcion, seleccionado, auxCiclo.getMomentoId());
+                } else {
+                    Utilitarios.mensaje("No realizó ningún cambio", 1);
+                }
+            }
+            configTblCiclos();
+            cajasCi(false, false);
+            botonesCi(true, false, false, false, true);
+            limpiarCi();
+        } else {
+            Utilitarios.mensaje("Ingrese todos los datos del formulario!!!", 2);
+        }
+    }//GEN-LAST:event_btnGuardarCicloActionPerformed
+
+    private void btnBuscarCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCicloActionPerformed
+        if (!txtIdCiclo.getText().equals("")) {
+            auxCiclo = new Ciclo(Byte.parseByte(txtIdCiclo.getText()));
+            if (objCi.buscar(auxCiclo)) { //true fue encontrado
+                txtNombreCiclo.setText(auxCiclo.getDescripcion()); //nombre del curso
+                if (auxCiclo.isParImpar()) //true
+                    jrbImpar.setSelected(true);
+                else
+                    jrbPar.setSelected(true);
+                //cargamos los datos del momento
+                cargarJComboBoxMn(cmbMomentoCiclo);
+                auxMomento = new Momento(auxCiclo.getMomentoId());
+                objMn.buscar(auxMomento); //buscamos el momento
+                cmbMomentoCiclo.setSelectedItem(auxMomento.getNombre());
+                                
+                editableCi(false);
+                cajasCi(true, true);
+                botonesCi(false, true, false, false, false);
+            } else {
+                limpiarCi();
+                cajasCi(false, false);
+                botonesCi(true, false, false, false, true);
+            }
+        } else {
+            Utilitarios.mensaje("Ingrese el ID del ciclo que desea buscar", 2);
+        }
+    }//GEN-LAST:event_btnBuscarCicloActionPerformed
+
+    private void btnEditarCicloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCicloActionPerformed
+        bandCiclo = false;
+        cajasCi(true, false);
+        botonesCi(false, false, true, false, false);
+    }//GEN-LAST:event_btnEditarCicloActionPerformed
+
+    private void txtIdMomentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdMomentoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9')
+        evt.consume();
+    }//GEN-LAST:event_txtIdMomentoKeyTyped
+
+    private void txtNombreMomentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreMomentoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c!=' ') && (c!=',') && (c!='.')
+            && (c!='á') && (c!='é')&& (c!='í')&& (c!='ó')&& (c!='ú')
+            && (c!='Á')&& (c!='É')&& (c!='Í')&& (c!='Ó')&& (c!='Ú'))
+            evt.consume();
+    }//GEN-LAST:event_txtNombreMomentoKeyTyped
+
+    private void btnNuevoMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMomentoActionPerformed
+        bandMomento = true; //activa para guardar un nuevo elemento      
+        jrbSi.setSelected(true);
+        cajasMn(false, true);
+        botonesMn(false, true, false, false, false);
+    }//GEN-LAST:event_btnNuevoMomentoActionPerformed
+
+    private void btnGuardarMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMomentoActionPerformed
+        String descripcion = txtNombreMomento.getText().trim(); //captura el nombre del momento
+        boolean seleccionado = (jrbSi.isSelected() == true? true : false);
+        int rptaMomento = -1;
+        if (!descripcion.equals("")) { //distinitos de vacio
+            if (bandMomento) {//band = true guarda un curso
+                objMn.agregar(descripcion);
+            } else { //bandMomento = false actualiza un momento
+                editableMn(true);
+                byte idMn = Byte.parseByte(txtIdMomento.getText());
+                if (!descripcion.equals(auxMomento.getNombre()))
+                    rptaMomento = Utilitarios.confirmacion("El nombre es un dato sensible, desea modificarlo?", 0);
+                
+                if (rptaMomento == 0) { //actualiza
+                    objMn.actualizar(idMn, descripcion, seleccionado);
+                } else if (descripcion.equals(auxMomento.getNombre()) || (seleccionado != auxMomento.isVigente()) ){ // solo cambia el la definicion
+                     objMn.actualizar(idMn, auxMomento.getNombre(), seleccionado);
+                } else {
+                    Utilitarios.mensaje("No realizó ningún cambio", 1);
+                }
+            }
+            configTblMomentos(true);
+            cmbVigenteMn.setSelectedIndex(0);
+            cajasMn(false, false);
+            botonesMn(true, false, false, false, true);
+            limpiarMn();
+        } else {
+            Utilitarios.mensaje("Ingrese todos los datos del formulario!!!", 2);
+        }
+    }//GEN-LAST:event_btnGuardarMomentoActionPerformed
+
+    private void btnBuscarMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMomentoActionPerformed
+        if (!txtIdMomento.getText().equals("")) {
+            auxMomento = new Momento(Byte.parseByte(txtIdMomento.getText()));
+            if (objMn.buscar(auxMomento)) { //true fue encontrado
+                txtNombreMomento.setText(auxMomento.getNombre()); //nombre del curso
+                if (auxMomento.isVigente()) //true
+                    jrbSi.setSelected(true);
+                else
+                    jrbNo.setSelected(true);
+                                
+                editableMn(false);
+                cajasMn(true, true);
+                botonesMn(false, true, false, false, false);
+            } else {
+                limpiarMn();
+                cajasMn(false, false);
+                botonesMn(true, false, false, false, true);
+            }
+        } else {
+            Utilitarios.mensaje("Ingrese el ID del momento que desea buscar", 2);
+        }
+    }//GEN-LAST:event_btnBuscarMomentoActionPerformed
+
+    private void btnEditarMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMomentoActionPerformed
+        bandMomento = false;
+        cajasMn(true, false);
+        botonesMn(false, false, true, false, false);
+    }//GEN-LAST:event_btnEditarMomentoActionPerformed
+
+    private void btnBuscarVigentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVigentesActionPerformed
+        boolean estado = false;
+        if (cmbVigenteMn.getSelectedItem() == "Activos") //default cero
+            estado = true;
+        configTblMomentos(estado);
+    }//GEN-LAST:event_btnBuscarVigentesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton26;
-    private javax.swing.JButton jButton47;
-    private javax.swing.JButton jButton48;
-    private javax.swing.JButton jButton49;
-    private javax.swing.JButton jButton50;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
+    private javax.swing.JPanel Ciclos;
+    private javax.swing.JPanel Cursos;
+    private javax.swing.JPanel Momentos;
+    private javax.swing.ButtonGroup Vigente;
+    private javax.swing.ButtonGroup btgTipo;
+    private javax.swing.JButton btnBuscarCiclo;
+    private javax.swing.JButton btnBuscarCursos;
+    private javax.swing.JButton btnBuscarMomento;
+    private javax.swing.JButton btnBuscarVigentes;
+    private javax.swing.JButton btnBusquedaCurso;
+    private javax.swing.JButton btnEditarCiclo;
+    private javax.swing.JButton btnEditarCursos;
+    private javax.swing.JButton btnEditarMomento;
+    private javax.swing.JButton btnEliminarCiclo;
+    private javax.swing.JButton btnEliminarCursos;
+    private javax.swing.JButton btnEliminarMomento;
+    private javax.swing.JButton btnGuardarCiclo;
+    private javax.swing.JButton btnGuardarCursos;
+    private javax.swing.JButton btnGuardarMomento;
+    private javax.swing.JButton btnNuevoCiclo;
+    private javax.swing.JButton btnNuevoCursos;
+    private javax.swing.JButton btnNuevoMomento;
+    private javax.swing.JComboBox<String> cmbCicloCurso;
+    private javax.swing.JComboBox<String> cmbMomentoCiclo;
+    private javax.swing.JComboBox<String> cmbPlanCurso;
+    private javax.swing.JComboBox<String> cmbVigenteMn;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JRadioButton jrbImpar;
+    private javax.swing.JRadioButton jrbNo;
+    private javax.swing.JRadioButton jrbPar;
+    private javax.swing.JRadioButton jrbSi;
+    private javax.swing.JTable tblCiclos;
+    private javax.swing.JTable tblCursos;
+    private javax.swing.JTable tblMomentos;
+    private javax.swing.JTextField txtBusquedaCurso;
+    private javax.swing.JTextField txtCodigoCurso;
+    private javax.swing.JTextField txtCreditosCurso;
+    private javax.swing.JTextField txtIdCiclo;
+    private javax.swing.JTextField txtIdCurso;
+    private javax.swing.JTextField txtIdMomento;
+    private javax.swing.JTextField txtNombreCiclo;
+    private javax.swing.JTextField txtNombreCurso;
+    private javax.swing.JTextField txtNombreMomento;
     // End of variables declaration//GEN-END:variables
+
+/**
+     * Métodos para el control de la vista Cursos
+     */
+    private void cajasCu(boolean a, boolean b) {
+        txtIdCurso.setEnabled(a);
+        cmbPlanCurso.setEnabled(b);
+        cmbCicloCurso.setEnabled(b);
+        txtNombreCurso.setEnabled(b);
+        txtCodigoCurso.setEnabled(b);
+        txtCreditosCurso.setEnabled(b);
+    }
+    
+    private void editableCu(boolean a) {
+        txtIdCurso.setEditable(a);
+    }
+    
+    private void botonesCu(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        btnNuevoCursos.setEnabled(a);
+        btnGuardarCursos.setEnabled(b);
+        btnBuscarCursos.setEnabled(c);
+        btnEliminarCursos.setEnabled(d);
+        btnEditarCursos.setEnabled(e);
+    }
+    
+    private void limpiarCu() {
+        txtIdCurso.setText("");
+        cmbPlanCurso.removeAllItems();
+        cmbCicloCurso.removeAllItems();
+        txtNombreCurso.setText("");
+        txtCodigoCurso.setText("");
+        txtCreditosCurso.setText("");
+    }
+    
+    /**
+     * Métodos para el control de la vista ciclos
+     */
+    private void cajasCi(boolean a, boolean b) {
+        txtIdCiclo.setEnabled(a);
+        cmbMomentoCiclo.setEnabled(b);
+        txtNombreCiclo.setEnabled(b);
+        jrbPar.setEnabled(b);
+        jrbImpar.setEnabled(b);
+    }
+    
+    private void editableCi(boolean a) {
+        txtIdCiclo.setEditable(a);
+    }
+    
+    private void botonesCi(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        btnNuevoCiclo.setEnabled(a);
+        btnGuardarCiclo.setEnabled(b);
+        btnBuscarCiclo.setEnabled(c);
+        btnEliminarCiclo.setEnabled(d);
+        btnEditarCiclo.setEnabled(e);
+    }
+    
+    private void limpiarCi() {
+        txtIdCiclo.setText("");
+        cmbMomentoCiclo.removeAllItems();
+        txtNombreCiclo.setText("");
+        jrbPar.setSelected(true);
+    }
+    
+    /**
+     * Métodos para el control de la vista momentos
+     */
+    private void cajasMn(boolean a, boolean b) {
+        txtIdMomento.setEnabled(a);
+        txtNombreMomento.setEnabled(b);
+        jrbSi.setEnabled(b);
+        jrbNo.setEnabled(b);
+    }
+    
+    private void editableMn(boolean a) {
+        txtIdMomento.setEditable(a);
+    }
+    
+    private void botonesMn(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        btnNuevoMomento.setEnabled(a);
+        btnGuardarMomento.setEnabled(b);
+        btnBuscarMomento.setEnabled(c);
+        btnEliminarMomento.setEnabled(d);
+        btnEditarMomento.setEnabled(e);
+    }
+    
+    private void limpiarMn() {
+        txtIdMomento.setText("");
+        txtNombreMomento.setText("");
+        jrbSi.setSelected(true);
+    }
 }
