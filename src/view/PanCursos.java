@@ -1428,7 +1428,7 @@ public class PanCursos extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombreMomento;
     // End of variables declaration//GEN-END:variables
 
-/**
+    /**
      * Métodos para el control de la vista Cursos
      */
     private void cajasCu(boolean a, boolean b) {

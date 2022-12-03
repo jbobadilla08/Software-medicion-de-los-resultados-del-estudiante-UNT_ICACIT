@@ -10,8 +10,13 @@ public class Alumno {
     private String codMatricula;
     private String nombre;
     private String apellido;
-    
-    private LinkedList <Nota> notas = new LinkedList<Nota>();
+
+    public Alumno() {
+    }
+
+    public Alumno(String codMatricula) {
+        this.codMatricula = codMatricula;
+    }
 
     public Alumno(String codMatricula, String nombre, String apellido) {
         this.codMatricula = codMatricula;
@@ -31,10 +36,6 @@ public class Alumno {
         return apellido;
     }
 
-    public LinkedList<Nota> getNotas() {
-        return notas;
-    }
-    
     public void setCodMatricula(String codMatricula) {
         this.codMatricula = codMatricula;
     }
@@ -47,8 +48,10 @@ public class Alumno {
         this.apellido = apellido;
     }
 
-    public void agregarNota(Nota nota) {
-        notas.add(nota);
-        nota.setAlumno(this);
-    }    
+    @Override
+    public String toString() {
+        return "Alumno{" + "codMatricula=" + codMatricula + ", nombre=" + nombre + ", apellido=" + apellido + '}';
+    }
+    
+    
 }

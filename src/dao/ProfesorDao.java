@@ -97,7 +97,6 @@ public class ProfesorDao implements IPersona<Profesor>{
             conn.close();
             return band;
         }
-        
     }
     
     @Override
@@ -178,12 +177,6 @@ public class ProfesorDao implements IPersona<Profesor>{
             Utilitarios.mensaje(ex.toString(), 0);
         } finally {
             conn.close();
-            Iterator<Object[]> it = lista.iterator();
-            Object[] l;
-            while(it.hasNext()){
-                l = it.next();
-                System.out.println("__"+l[0]);
-            }
             return lista;
         }
     }
@@ -272,6 +265,62 @@ public class ProfesorDao implements IPersona<Profesor>{
         }catch (Exception ex) {
             Utilitarios.mensaje(ex.toString(), 0);
         } finally {
+            conn.close();
+            return band;
+        }
+    }
+    
+    /**
+     * retorna la lista de cursos de un profesor en especifico
+     * @param privilegios  dependiendo del tipo superusuario o administrador muestra ciertos datos de la database 
+     * @param dni identificación del profesor a buscar
+     * @param sede sede que desea bsucar
+     * @return lista de cursos
+     */
+    public LinkedList<Object[]> buscar(boolean privilegios, String dni, byte sede) {
+        LinkedList<Object[]> lista = new LinkedList<Object[]>();
+        
+        try {
+            CallableStatement cs = conn.getConnection().prepareCall("{call App_ProfesorHasCurso_GetList(?,?,?)}");
+            cs.setBoolean(1, privilegios);
+            cs.setString(2, dni);
+            cs.setByte(3, sede);
+            ResultSet rs = cs.executeQuery();
+            Object[] fila;
+            while(rs.next()) {
+                fila = new Object[6];
+               fila[0] = rs.getInt(1); //id
+               fila[1] = rs.getString(2); //codigo
+               fila[2] = rs.getString(3); //descripcion
+               fila[3] = rs.getByte(4); //valor
+               fila[4] = rs.getString(5);
+               fila[5] = rs.getString(6);
+               lista.add(fila);
+            }
+            rs.close();
+            cs.close();
+        } catch (Exception ex) {
+            Utilitarios.mensaje(ex.toString(), 0);
+        } finally {
+            conn.close();
+            return lista;
+        }
+    }
+    
+    public boolean eliminar(String dni, int cursoId, byte sedeId) {
+        boolean band = false;
+        try {
+            CallableStatement cs = conn.getConnection().prepareCall("{CALL App_ProfesorHasCurso_Remove(?,?,?)}");
+            cs.setString(1, dni);
+            cs.setInt(2, cursoId);
+            cs.setByte(3, sedeId);
+            if ( cs.executeUpdate() > 0 ) 
+                band = true;
+            cs.close();
+        }catch (Exception ex) {
+            Utilitarios.mensaje(ex.toString(), 0);
+        }
+        finally {
             conn.close();
             return band;
         }

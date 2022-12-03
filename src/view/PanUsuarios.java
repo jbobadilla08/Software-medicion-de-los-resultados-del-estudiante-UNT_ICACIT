@@ -1,7 +1,6 @@
 
 package view;
 
-import Utilidades.GestionCeldas;
 import beans.Administrador;
 import beans.Profesor;
 import beans.Sede;
@@ -13,16 +12,11 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import log.AdministradorLog;
 import log.CicloLog;
 import log.CursoLog;
@@ -55,6 +49,7 @@ public class PanUsuarios extends javax.swing.JPanel {
     Profesor auxProfesor;
     boolean privilegio = DashboardAdmin.admin.isPrivilegios();
     byte sedeId = DashboardAdmin.admin.getSedeId();
+    
     boolean bandAdmin = false; // bandera para guardar o actualizar un registros
     boolean bandProf = false;
     boolean bandCursos = false;
@@ -121,16 +116,31 @@ public class PanUsuarios extends javax.swing.JPanel {
         this.tblProfesorHasCursos.getColumnModel().getColumn(4).setPreferredWidth(30); //Plan Curricular
     }
     
-  
+    private void tblCursosSelect(String dni, byte sede) {
+        tblCursosSeleccionados.setModel(objProf.listBuscarCursos(privilegio, dni, sede));
+        
+        //cargamos la tabla de niveles de logro
+        this.tblCursosSeleccionados.getTableHeader().setReorderingAllowed(false); //captura el encabezado
+        this.tblCursosSeleccionados.getTableHeader().setFont(new Font("JetBrainsMonoMedium Nerd Font", Font.PLAIN, 12));
+        this.tblCursosSeleccionados.setRowHeight(20); //configura el tamaño de las celdas
+        //Se define el tamaño de largo para cada columna y su contenido
+        this.tblCursosSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(40); //id
+        this.tblCursosSeleccionados.getColumnModel().getColumn(1).setPreferredWidth(70); //Código
+        this.tblCursosSeleccionados.getColumnModel().getColumn(2).setPreferredWidth(150); //descripcion
+        this.tblCursosSeleccionados.getColumnModel().getColumn(3).setPreferredWidth(40); //Creditos
+        this.tblCursosSeleccionados.getColumnModel().getColumn(4).setPreferredWidth(40); //descripcion
+        this.tblCursosSeleccionados.getColumnModel().getColumn(5).setPreferredWidth(30); //Creditos
+    }
      
      
     private void cargarTabla() { 
         configTblUsuarios(true);
         configTblProfesores(true);
         configTblCursos();
+        tblCursosSelect("", (byte)0);
         mCajasAdmin(false, false, false);
         mCajasProf(false, false);
-        mCajasCursos(false, false);
+        mCajasCursos(false, false, false);
         
         
         mBotonesAdmin(true, false, false, false, true);
@@ -1324,7 +1334,9 @@ public class PanUsuarios extends javax.swing.JPanel {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout panCursosLayout = new javax.swing.GroupLayout(panCursos);
@@ -1350,7 +1362,7 @@ public class PanUsuarios extends javax.swing.JPanel {
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cursos", panCursos);
@@ -1732,6 +1744,38 @@ public class PanUsuarios extends javax.swing.JPanel {
     }
     
     
+    /**
+     * Retorna el plan que pertenece al curso
+     * @return 
+     */
+    private String selectPlan(byte plan){
+        Iterator<PlanCurricular> itCu = listPlanes.iterator();
+        PlanCurricular c = null;
+        while (itCu.hasNext()) {            
+            c = itCu.next();
+            if (plan == c.getPlancId()) 
+                break;
+        }
+        return c.getPlanEstudios();
+    }
+    
+    /**
+     * Retorna el ciclo que pertenece al curso
+     * @return 
+     */
+    private String selectCiclo(byte cicloId){
+        Iterator<Ciclo> itCu = listCiclos.iterator();
+        Ciclo c = null;
+        while (itCu.hasNext()) {            
+            c = itCu.next();
+            if (cicloId == c.getCicloId()) 
+                break;
+        }
+        return c.getDescripcion();
+    }
+    
+    
+    
     
     private void btnNuevoCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoCursoActionPerformed
         bandCursos = true; //activa para guardar un nuevo elemento
@@ -1746,8 +1790,9 @@ public class PanUsuarios extends javax.swing.JPanel {
         //carga los cursos en el jcombobox
         cargarListCurso();
         
+        mCajasCursos(true, true, true);
         mResetCursos();
-        mCajasCursos(true, true);
+        
         mBotonesCursos(false, true, false, false, false, true);
     }//GEN-LAST:event_btnNuevoCursoActionPerformed
 
@@ -1769,27 +1814,12 @@ public class PanUsuarios extends javax.swing.JPanel {
                     c = itC.next();
                     objProf.agregar(profesor.getDni(), c.getCursoId(), sede.getSedeId(), c.getDescripcion());
                 }
-                
-            } else { //band = false actualiza un admin
-//                mEditable(true);
-//                if (!nombre.equals(auxProfesor.getNombre()))
-//                    rptaNom =  Utilitarios.confirmacion("El nombre es un dato sensible, desea modificarlo?", 0);
-//                if (!apellido.equals(auxProfesor.getApellido()))
-//                    rptaApe =  Utilitarios.confirmacion("El apellido es un dato sensible, desea modificarlo?", 0);
-//                
-//                if (rptaNom == 0 && rptaApe == 0)
-//                    objProf.actualizar(auxProfesor.getDni(), nombre, apellido, telefono, fechaActual, correo, usuario, password, estado);
-//                else if (rptaNom == 0 && rptaApe == -1)
-//                    objProf.actualizar(auxProfesor.getDni(), nombre, auxProfesor.getApellido(), telefono, fechaActual, correo, usuario, password, estado);
-//                else if (rptaNom == -1 && rptaApe == 0)
-//                    objProf.actualizar(auxProfesor.getDni(), auxProfesor.getNombre(), apellido, telefono, fechaActual, correo, usuario, password, estado);
-//                else 
-//                    objProf.actualizar(auxProfesor.getDni(), auxProfesor.getNombre(), auxProfesor.getApellido(), telefono, fechaActual, correo, usuario, password, estado);
-            }
+            } 
             configTblCursos();
             configTblProfesores(true); //actualiza la tabla de profesores
-            mCajasCursos(false, false);
+            mCajasCursos(false, false, false);
             limpiarTabla();//limpia la tabla
+            cursosAgregados.remove();
             mBotonesCursos(true, false, false, false, true, false);
             mLimpiarCursos();
         } else {
@@ -1797,22 +1827,72 @@ public class PanUsuarios extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardarCursoActionPerformed
 
+    private void organizarTabla() {
+        String plan = "", sede = "";
+        //
+        for (int i = 0; i < tblCursosSeleccionados.getRowCount(); i++) {
+            plan = selectPlan(Byte.parseByte(tblCursosSeleccionados.getValueAt(i, 4).toString()));
+            sede = selectCiclo(Byte.parseByte(tblCursosSeleccionados.getValueAt(i, 5).toString()));
+            //agregamos a la tabla
+            tblCursosSeleccionados.setValueAt(plan, i, 4);
+            tblCursosSeleccionados.setValueAt(sede, i, 5);
+        }
+    }
+    
     private void btnBuscarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCursoActionPerformed
-        // TODO add your handling code here:
+        Profesor p = selectProfesor();
+        Sede s = selectSede();
+        tblCursosSelect(p.getDni(), s.getSedeId());
+        
+        //reorganizamos la tabla 
+        organizarTabla();
+        mCajasCursos(false, false, false); //inhabilita el profesor y la sede seleccionada
+        
+        mBotonesCursos(false, false, false, true, false, false);
     }//GEN-LAST:event_btnBuscarCursoActionPerformed
 
     private void btnEliminarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCursoActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel)tblCursosSeleccionados.getModel();
+        int confirmacion = -1;
+        int fila = tblCursosSeleccionados.getSelectedRow();
+        if (fila < 0) 
+            Utilitarios.mensaje("Debe seleccionar una fila de la tabla", 1);
+        else {
+            confirmacion = Utilitarios.confirmacion("Esta seguro que desea eliminar el registro?", 0);
+            //verificamos
+            if (confirmacion == 0) {
+                
+                Profesor profesor = selectProfesor(); //capturamos el profesor seleccionado
+                Sede sede = selectSede(); //capturamos la sede seleccionada
+                int cursoId = Integer.parseInt(tblCursosSeleccionados.getValueAt(fila, 0).toString());
+                //objProf.eliminar();
+                objProf.eliminar(profesor.getDni(),cursoId, sede.getSedeId());
+            }
+            configTblCursos();
+            limpiarTabla();
+            mResetCursos();
+            mBotonesCursos(true, false, false, false, true, false);
+            mLimpiarCursos();
+        }
+        
+        
     }//GEN-LAST:event_btnEliminarCursoActionPerformed
 
     private void btnEditarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCursoActionPerformed
-        // TODO add your handling code here:
+        bandCursos = false;
+        if (privilegio) //true
+            mCajasCursos(true, true, false);
+        else
+            mCajasCursos(true, false, false);
+        mResetCursos();
+        mBotonesCursos(false, false, true, false, false, false);
     }//GEN-LAST:event_btnEditarCursoActionPerformed
 
     private void btnAddCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCursoActionPerformed
         DefaultTableModel modelo = (DefaultTableModel)tblCursosSeleccionados.getModel();
         boolean encontrado = false;
         String descripcion = "";
+        //buscar el curso a agregar q no este repetido
         for (int i = 0; i < tblCursosSeleccionados.getRowCount(); i++) {
             descripcion = tblCursosSeleccionados.getValueAt(i, 2).toString();
             if (descripcion.equals(cmbListCurso.getSelectedItem().toString()))
@@ -1821,18 +1901,20 @@ public class PanUsuarios extends javax.swing.JPanel {
         if (!encontrado) {
             Curso curso = selectCurso();
             cursosAgregados.add(curso); //agregamos a una lista local
-            Object[] fila = new Object[4];
+            Object[] fila = new Object[6];
             fila[0] = curso.getCursoId();
             fila[1] = curso.getCodigo();
             fila[2] = curso.getDescripcion();
             fila[3] = curso.getCreditos();
+            fila[4] = cmbListPlan.getSelectedItem().toString();//selectPlan(curso.getPlanCurricular());
+            fila[5] = cmbListCiclo.getSelectedItem().toString(); //selectCiclo(curso.getCicloId());
             modelo.addRow(fila);
             tblCursosSeleccionados.setModel(modelo); //agregamos a la tabla
         }
 
     }//GEN-LAST:event_btnAddCursoActionPerformed
 
-  
+    
     private void btnDeleteCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCursoActionPerformed
         DefaultTableModel modelo = (DefaultTableModel)tblCursosSeleccionados.getModel();
         int confirmacion = -1;
@@ -1858,14 +1940,13 @@ public class PanUsuarios extends javax.swing.JPanel {
         if (confirmacion == 0) {
             limpiarTabla();
         }
-        
+        cursosAgregados.remove();
     }//GEN-LAST:event_btnLimpiarCursoActionPerformed
 
     private void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel)tblCursosSeleccionados.getModel();
         while(modelo.getRowCount() > 0)
             modelo.removeRow(0);
-        cursosAgregados.remove();
     }
     
     private void cmbListPlanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbListPlanItemStateChanged
@@ -2067,17 +2148,14 @@ public class PanUsuarios extends javax.swing.JPanel {
      *
      * @param b bandera para controlar el estado
      */
-    private void mCajasCursos(boolean a, boolean b) {
+    private void mCajasCursos(boolean a, boolean b, boolean c) {
         cmbListProf.setEnabled(a);
-        cmbListSede.setEnabled(a);
-        cmbListPlan.setEnabled(b);
-        cmbListCiclo.setEnabled(b);
-        cmbListCurso.setEnabled(b);
+        cmbListSede.setEnabled(b);
+        cmbListPlan.setEnabled(c);
+        cmbListCiclo.setEnabled(c);
+        cmbListCurso.setEnabled(c);
     }
     
-    private void mEditableCursos(boolean b) {
-        txtDniProf.setEditable(b);
-    }
 
     private void mBotonesCursos(boolean a, boolean b, boolean c, boolean d, boolean e, boolean f) {
         btnNuevoCurso.setEnabled(a);
@@ -2105,10 +2183,31 @@ public class PanUsuarios extends javax.swing.JPanel {
     }
     
     private void mResetCursos() {
+        if (!privilegio) { // false = administrador
+            selectsede();
+            cmbListSede.setEnabled(false);
+        } else
+            cmbListSede.setSelectedIndex(0);
         cmbListProf.setSelectedIndex(0);
-        cmbListSede.setSelectedIndex(0);
         cmbListPlan.setSelectedIndex(0);
         cmbListCiclo.setSelectedIndex(0);
 //        cmbListCurso.setSelectedIndex(0);
     }
+    
+    /**
+     * Selecciona la sede segun el admin
+     * @return 
+     */
+    private void selectsede(){
+        Iterator<Sede> itS = listSede.iterator();
+        Sede s = null;
+        
+        while (itS.hasNext()) {            
+            s = itS.next();
+            if (s.getSedeId() == sedeId)
+                cmbListSede.setSelectedItem(s.getDescripcion());
+        }
+    }
+    
+    
 }

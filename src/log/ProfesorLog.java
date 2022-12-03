@@ -174,4 +174,34 @@ public class ProfesorLog {
         return modelo;        
     }
     
+    /**
+     * retorna la tabla de cursos de un profesor en especifico
+     * @param privilegios  dependiendo del tipo superusuario o administrador muestra ciertos datos de la database 
+     * @param dni identificación del profesor a buscar
+     * @param sede sede que desea bsucar
+     * @return lista de cursos
+     */
+    public DefaultTableModel listBuscarCursos( boolean privilegios, String dni, byte sedeId) { // estado = (activo o inactivo), permiso =  (superusuario o admin)
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Código");
+        modelo.addColumn("Descripción");
+        modelo.addColumn("Créditos");
+        modelo.addColumn("Plan");
+        modelo.addColumn("Ciclo");
+        Iterator<Object[]> it = obj.buscar(privilegios, dni, sedeId).iterator();
+        Object[] fila = null;
+        while (it.hasNext()) {
+            fila = it.next();
+            modelo.addRow(fila);
+        }
+        return modelo;        
+    }
+
+    public void eliminar(String dni, int cursoId, byte sedeId) {
+        if (obj.eliminar(dni, cursoId, sedeId))
+            Utilitarios.mensaje("El curso se elimino de profesor.", 1);
+        else 
+            Utilitarios.mensaje("El curso no se pudo eliminar de profesor.", 0);            
+    }
 }
